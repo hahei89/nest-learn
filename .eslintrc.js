@@ -20,10 +20,11 @@ module.exports = {
       'error',
       {
         trailingComma: 'none',
-        semi: false
+        semi: false,
+        bracketSpacing: true
       }
     ],
-    'space-before-function-paren': [2, 'always'],
+    'space-before-function-paren': 0,
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
