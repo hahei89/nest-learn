@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import * as Sequelize from 'sequelize';
-import sequelize from '../../database/sequelize';
+import { Injectable } from '@nestjs/common'
+import * as Sequelize from 'sequelize'
+import sequelize from '../../database/sequelize'
 @Injectable()
 export class UserService {
   async findOne(username: string): Promise<any | undefined> {
@@ -14,33 +14,33 @@ export class UserService {
       from admin_user
       where
       account_name = '${username}'
-    `;
+    `
     try {
       const res = await sequelize.query(sql, {
         type: Sequelize.QueryTypes.SELECT,
         raw: true,
-        logging: true,
-      });
-      const user = res[0];
+        logging: true
+      })
+      const user = res[0]
       if (user) {
         return {
           code: 200,
           data: {
-            user,
+            user
           },
-          msg: 'Success',
-        };
+          msg: 'Success'
+        }
       } else {
         return {
           code: 600,
-          msg: '查无此人',
-        };
+          msg: '查无此人'
+        }
       }
     } catch (error) {
       return {
         code: 503,
-        msg: `Service error: ${error}`,
-      };
+        msg: `Service error: ${error}`
+      }
     }
   }
 }
