@@ -16,6 +16,17 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "allowJs": true,
+    "checkJs": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts",
+    "config/**/*.ts",
+    "config/**/*.spec.ts",
+    "config/**/*.d.ts"
+  ],
+  "exclude": ["node_modules"]
 }
