@@ -1,8 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import * as Sequelize from 'sequelize'
+import { encryptPassword, makeSalt } from 'src/utils/cryptogram'
 import sequelize from '../../database/sequelize'
 @Injectable()
 export class UserService {
+  /**
+   * 查找是否有该用户
+   * @param username 用户名
+   * @returns 是否查找成功
+   */
   async findOne(username: string): Promise<any | undefined> {
     // if (username === 'Kid') {
     //   return 'Kid is here';
@@ -22,19 +28,35 @@ export class UserService {
         logging: true
       })
       const user = res[0]
-      if (user) {
-        return {
-          code: 200,
-          data: {
-            user
-          },
-          msg: 'Success'
-        }
-      } else {
-        return {
-          code: 600,
-          msg: '查无此人'
-        }
+      return user
+    } catch (error) {
+      return void 0
+    }
+  }
+
+  async register(requestBody: any): Promise<any> {
+    const { accountName, realName, password, mobile } = requestBody
+    const user = this.findOne(accountName)
+    if (user) {
+      return {
+        code: 400,
+        msg: '用户已存在'
+      }
+    }
+
+    const salt = makeSalt()
+    const hashPwd = encryptPassword(password, salt)
+    const registerSQL = `
+      insert into admin_user
+      (account_name, real_name, passwd, passwd_salt, mobile, user_status, role, create_by)
+      values
+      ('${accountName}', '${realName}', '${hashPwd}', '${salt}','${mobile}', 1, 3, 0)
+    `
+    try {
+      await sequelize.query(registerSQL, { logging: false })
+      return {
+        code: 200,
+        msg: 'Success'
       }
     } catch (error) {
       return {
