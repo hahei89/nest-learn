@@ -23,7 +23,7 @@ module.exports = {
         semi: false
       }
     ],
-    'space-before-function-paren': [2, 'always']
+    'space-before-function-paren': [2, 'always'],
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
