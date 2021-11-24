@@ -3,6 +3,7 @@ import * as express from 'express'
 import { AppModule } from './app.module'
 import { TransformInterceptor } from './intercepter/transform.interceptor'
 import { LoggerMiddleware } from './middleware/logger.middleware'
+import { AnyExceptionFilter } from './filter/any-exception.filter'
 import { HttpExceptionFilter } from './filter/http-exception.filter'
 
 async function bootstrap() {
@@ -13,6 +14,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor())
   // 过滤处理HTTP异常
   app.useGlobalFilters(new HttpExceptionFilter())
+  app.useGlobalFilters(new AnyExceptionFilter())
   await app.listen(3000)
 }
 bootstrap()
