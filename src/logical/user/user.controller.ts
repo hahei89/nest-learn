@@ -13,8 +13,9 @@ export class UserController {
   @Post('login')
   async findOne(@Body() loginParams: any) {
     console.log('JWT验证: Step1: 用户请求登录')
+    const user = await this.usersService.findOne(loginParams.username)
     const authResult = await this.authService.validateUser(
-      loginParams.username,
+      user,
       loginParams.password
     )
     switch (authResult.code) {

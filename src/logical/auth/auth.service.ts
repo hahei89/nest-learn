@@ -1,19 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { encryptPassword } from 'src/utils/cryptogram'
-import { UserService } from '../user/user.service'
+import { UserAuthDto } from './dto/user-auth.dto'
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly userService: UserService,
-    private readonly jwtService: JwtService
-  ) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   // JWT验证 - Step 2: 校验用户信息
-  async validateUser(username: string, password: string): Promise<any> {
+  async validateUser(user: UserAuthDto, password: string): Promise<any> {
     console.log('JWT验证 - Step 2: 校验用户信息')
-    const user = await this.userService.findOne(username)
     if (user) {
       const hashedPassword = user.passwd
       const salt = user.salt
@@ -38,7 +34,7 @@ export class AuthService {
     }
   }
   // JWT验证 - Step 3: 处理jwt验证
-  async certificate(user: any) {
+  async certificate(user: UserAuthDto) {
     const payload = {
       username: user.username,
       sub: user.userId,

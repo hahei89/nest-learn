@@ -7,7 +7,7 @@ import { UserController } from './logical/user/user.controller'
 
 @Module({
   imports: [UserModule, AuthModule],
-  controllers: [AppController, UserController],
+  controllers: [AppController],
   providers: [AppService]
 })
 export class AppModule {}
