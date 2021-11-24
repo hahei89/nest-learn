@@ -17,7 +17,12 @@ export class UserService {
     // return 'No one here';
 
     const sql = `
-      select user_id,account_name, real_name realName, role
+      select 
+      user_id,account_name, 
+      real_name realName, 
+      role,
+      passwd_salt salt,
+      passwd
       from admin_user
       where
       account_name = '${username}'

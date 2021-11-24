@@ -1,13 +1,35 @@
 import { Controller, Post, Body } from '@nestjs/common'
 import { UserService } from './user.service'
 import { RegisterDto } from './dto/register.dto'
+import { AuthService } from '../auth/auth.service'
 @Controller('user')
 export class UserController {
-  constructor(private readonly usersService: UserService) {}
+  constructor(
+    private readonly usersService: UserService,
+    private readonly authService: AuthService
+  ) {}
 
-  @Post('find-one')
-  findOne(@Body() body: any) {
-    return this.usersService.findOne(body.username)
+  @Post('login')
+  async findOne(@Body() loginParams: any) {
+    console.log('JWT验证: Step1: 用户请求登录')
+    const authResult = await this.authService.validateUser(
+      loginParams.username,
+      loginParams.password
+    )
+    switch (authResult.code) {
+      case 1:
+        return this.authService.certificate(authResult.user)
+      case 2:
+        return {
+          code: 600,
+          msg: '账号或密码错误'
+        }
+      default:
+        return {
+          code: 600,
+          msg: '查无此人'
+        }
+    }
   }
 
   @Post('register')
