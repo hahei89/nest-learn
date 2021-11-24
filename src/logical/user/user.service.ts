@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import * as Sequelize from 'sequelize'
 import { encryptPassword, makeSalt } from 'src/utils/cryptogram'
 import sequelize from '../../database/sequelize'
+import { RegisterDto } from './dto/register.dto'
 @Injectable()
 export class UserService {
   /**
@@ -33,10 +34,14 @@ export class UserService {
       return void 0
     }
   }
-
-  async register(requestBody: any): Promise<any> {
+  /**
+   * 注册用户
+   * @param requestBody 请求体
+   * @returns 成功或失败
+   */
+  async register(requestBody: RegisterDto): Promise<any> {
     const { accountName, realName, password, mobile } = requestBody
-    const user = this.findOne(accountName)
+    const user = await this.findOne(accountName)
     if (user) {
       return {
         code: 400,
