@@ -5,8 +5,14 @@ const productConfig = {
     user: 'root',
     password: 'litianhua',
     database: 'antd-admin',
-    connectionLimit: 10,
+    connectionLimit: 10
   },
-};
+  redis: {
+    port: 6379,
+    host: '127.0.0.1',
+    db: 0,
+    password: 'root'
+  }
+}
 
-export default productConfig;
+export default productConfig
